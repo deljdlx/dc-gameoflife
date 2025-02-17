@@ -1,4 +1,4 @@
-# Game of life in a React old fashion way
+# 🍄 Game of life in a React old fashion way
 
 <!--<SHORT-PRESENTATION>-->
 A [Conway game of life implemention](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life) in (very old) React
