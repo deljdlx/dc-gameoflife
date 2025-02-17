@@ -50,6 +50,8 @@ if($ownReadme->getDemoUrl()) {
     $readme->appendToPart('DEMOS', $demoBuffer);
     file_put_contents($readmePath, $readme->compile());
 
+    echo 'Adding to README.md ' . $demoBuffer . PHP_EOL;
+
     $manager->add($readmePath);
     $manager->commit('Update README.md - test');
     $manager->push();
