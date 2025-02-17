@@ -24,10 +24,6 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Set up Git authentication
-        run: |
-          git remote set-url origin https://x-access-token:${{ secrets.ACTION_TOKEN }}@github.com/${{ github.repository }}
-
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
@@ -67,6 +63,10 @@ jobs:
 
       - name: Check before commit
         run: ls -al
+
+      - name: Set up Git authentication
+        run: |
+          git remote set-url origin https://x-access-token:${{ secrets.ACTION_TOKEN }}@github.com/${{ github.repository }}
 
       - name: Fix Git safe directory issue
         run: git config --global --add safe.directory $GITHUB_WORKSPACE
