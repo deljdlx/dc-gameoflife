@@ -57,9 +57,9 @@ jobs:
 
       - name: Update README
         run: |
-          cd .github/scripts
-          php update-readme.php --token=${{ secrets.ACTION_TOKEN }} --repository=${{ github.repository }}
-          cd ../..
+          cd .github/scripts/tools/php
+          php update-main-readme --token=${{ secrets.ACTION_TOKEN }} --repository=${{ github.repository }}
+          cd ../../../..
 
       - name: Check before commit
         run: ls -al
