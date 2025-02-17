@@ -9,9 +9,10 @@ require_once __DIR__ . '/tools/php/vendor/autoload.php';
 
 
 $options = getopt('', [
-    'token:'
-    'repository:'
+    'token:',
+    'repository:',
 ]);
+
 $token = $options['token'];
 $repositoryName = $options['repository'];
 
