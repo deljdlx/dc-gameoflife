@@ -64,12 +64,12 @@ jobs:
       - name: Check before commit
         run: ls -al
 
+      - name: Fix Git safe directory issue
+        run: git config --global --add safe.directory $GITHUB_WORKSPACE
+
       - name: Set up Git authentication
         run: |
           git remote set-url origin https://x-access-token:${{ secrets.ACTION_TOKEN }}@github.com/${{ github.repository }}
-
-      - name: Fix Git safe directory issue
-        run: git config --global --add safe.directory $GITHUB_WORKSPACE
 
       - name: Commit and push changes
         run: |
