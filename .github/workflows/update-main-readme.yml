@@ -1,81 +1,12 @@
-name: Update README from other repositories
-
+name: Call Shared Workflow
 on:
-  workflow_call:
-    secrets:
-      personal_access_token:
-        required: true
-  # push:
-  #   branches:
-  #     - main
-  # repository_dispatch:
-  # schedule:
-  #   - cron: '0 * * * *'  # Exécute toutes les heures
+  push:
+    branches:
+      - main
+  workflow_dispatch:
 
 jobs:
-  update-readme:
-    runs-on: ubuntu-latest
-    container:
-      image: php:8.3-cli
-      options: --workdir /github/workspace
-    steps:
-
-      - name: Install required packages
-        run: |
-          apt-get update && apt-get install -y curl jq unzip libzip-dev tree
-          docker-php-ext-install zip
-
-      - name: Install Git
-        run: apt-get update && apt-get install -y git
-
-      - name: Configure Git
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          persist-credentials: false
-          fetch-depth: 0
-          token: ${{ secrets.personal_access_token }}
-      - name: Check path before running
-        run: |
-          pwd
-          ls -al
-
-      - name: Install dependencies
-        run: |
-          apt-get update && apt-get install -y git curl jq
-
-      - name: Test PHP
-        run: php -v
-
-      - name: Install Composer
-        run: |
-          curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
-      - name: Clone required repositories
-        run: |
-          tree . -L 3
-          git clone https://github.com/deljdlx/github-tools.git tools
-          cd tools/php
-          composer install --no-dev --optimize-autoloader
-          cd ../..
-          tree . -L 3
-      - name: Update README
-        run: |
-          cd tools/php
-          php update-main-readme.php --token=${{ secrets.personal_access_token }} --repository=${{ github.repository }}
-          cd ../..
-
-      - name: Check before commit
-        run: ls -al
-
-      - name: Fix Git safe directory issue
-        run: git config --global --add safe.directory $GITHUB_WORKSPACE
-
-      - name: Set up Git authentication
-        run: |
-          git remote set-url origin https://x-access-token:${{ secrets.personal_access_token }}@github.com/${{ github.repository }}
-
+  call-shared-workflow:
+    uses: deljdlx/github-tools/.github/workflows/update-main-readme.yml@main
+    secrets:
+        personal_access_token: ${{ secrets.ACTION_TOKEN }}
