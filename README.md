@@ -14,9 +14,10 @@ A [Conway game of life implemention](https://en.wikipedia.org/wiki/Conway%27s_Ga
 
 This was built **over a decade ago** in **pure React 3D isometric** style, before hooks, before Fiber, before React cared about your sanity.  
 
-- Built in **ancient React** (circa 2013).  
-- No build step, **no Webpack, no npm**, just raw, pure JSX-less React.  
-- **3D isometric rendering**, because **why not make life harder?**
+- **Built over a decade ago in React** (circa 2013).  
+- **NO build step. NO webback, almost nothing.** Just raw **React + JavaScript** like in the good old days.  
+- **No `npm install` pain, no dependency conflicts, it just works™**.  
+- **3D isometric rendering**, because **flat grids are for cowards.**  
 
 ⚠️ **Warning:** This code may cause **severe nostalgia** or **mild disgust** among modern React developers.  
 
