@@ -1,10 +1,14 @@
 name: Update README from other repositories
 
 on:
-  push:
-    branches:
-      - main
-  repository_dispatch:
+  workflow_call:
+    secrets:
+      personal_access_token:
+        required: true
+  # push:
+  #   branches:
+  #     - main
+  # repository_dispatch:
   # schedule:
   #   - cron: '0 * * * *'  # Exécute toutes les heures
 
@@ -15,6 +19,11 @@ jobs:
       image: php:8.3-cli
       options: --workdir /github/workspace
     steps:
+
+      - name: Install required packages
+        run: |
+          apt-get update && apt-get install -y curl jq unzip libzip-dev tree
+          docker-php-ext-install zip
 
       - name: Install Git
         run: apt-get update && apt-get install -y git
@@ -29,7 +38,7 @@ jobs:
         with:
           persist-credentials: false
           fetch-depth: 0
-          token: ${{ secrets.ACTION_TOKEN }}
+          token: ${{ secrets.personal_access_token }}
       - name: Check path before running
         run: |
           pwd
@@ -48,18 +57,17 @@ jobs:
 
       - name: Clone required repositories
         run: |
-          cd .github/scripts
+          tree . -L 3
           git clone https://github.com/deljdlx/github-tools.git tools
           cd tools/php
-          composer install
+          composer install --no-dev --optimize-autoloader
           cd ../..
-          cd ../..
-
+          tree . -L 3
       - name: Update README
         run: |
-          cd .github/scripts/tools/php
-          php update-main-readme.php --token=${{ secrets.ACTION_TOKEN }} --repository=${{ github.repository }}
-          cd ../../../..
+          cd tools/php
+          php update-main-readme.php --token=${{ secrets.personal_access_token }} --repository=${{ github.repository }}
+          cd ../..
 
       - name: Check before commit
         run: ls -al
@@ -69,11 +77,5 @@ jobs:
 
       - name: Set up Git authentication
         run: |
-          git remote set-url origin https://x-access-token:${{ secrets.ACTION_TOKEN }}@github.com/${{ github.repository }}
-
-      - name: Commit and push changes
-        run: |
-          git add README.md
-          git commit -m "Auto-update README [skip ci]" || echo "No changes to commit"
-          git push origin main
+          git remote set-url origin https://x-access-token:${{ secrets.personal_access_token }}@github.com/${{ github.repository }}
 
