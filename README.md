@@ -19,7 +19,13 @@ This was built **over a decade ago** in **pure React 3D isometric** style, befor
 - **No `npm install` pain, no dependency conflicts, it just works™**.  
 - **3D isometric rendering**, because **flat grids are for cowards.**  
 
+
+💡 **Why is this game still working flawlessly in 2024?**  
+Because **there’s nothing to break.** No `node_modules`, no `peer dependencies`, no **"This version of React is incompatible with your Webpack config"** nonsense.  
+
+
 ⚠️ **Warning:** This code may cause **severe nostalgia** or **mild disgust** among modern React developers.  
+
 
 
 ## The "game"
