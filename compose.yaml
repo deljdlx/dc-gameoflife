@@ -1,6 +1,7 @@
 services:
   gameofile:
     image: nginx:alpine
+    container_name: gameoflife
     restart: always
     env_file:
       - .env
@@ -9,9 +10,9 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=web"
-      - "traefik.http.routers.gameofile.rule=Host(\"${DOMAIN}\")"
-      - "traefik.http.routers.gameofile.entrypoints=websecure"
-      - "traefik.http.routers.gameofile.tls.certresolver=myresolver"
+      - "traefik.http.routers.gameoflife.rule=Host(\"${DOMAIN}\")"
+      - "traefik.http.routers.gameoflife.entrypoints=websecure"
+      - "traefik.http.routers.gameoflife.tls.certresolver=myresolver"
     networks:
       - web
 
