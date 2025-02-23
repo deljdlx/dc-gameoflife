@@ -2,27 +2,14 @@
 
 var IsoMap={};
 
-
-
-
-
-
 IsoMap.Map = React.createClass({
-
-
-
 
 	getInitialState: function() {
 		return {
-			aliveCellsNumber:0
+			aliveCellsNumber:0,
+			tryCount: 0,
 		}
 	},
-
-
-
-
-
-
 
 	getDefaultProps: function() {
 		var properties={
@@ -40,36 +27,25 @@ IsoMap.Map = React.createClass({
 			cellList: []
 		}
 
-
-		//this.initializeCells();
-
-
 		return properties;
 	},
 
-
-
-	//explication des foimules ici https://fr.wikipedia.org/wiki/R%C3%A9solution_d%27un_triangle#Deux_angles_et_le_c.C3.B4t.C3.A9_commun
+	//explication des formules ici https://fr.wikipedia.org/wiki/R%C3%A9solution_d%27un_triangle#Deux_angles_et_le_c.C3.B4t.C3.A9_commun
 	getCellByCoord:function(x, y) {
 
 		var data=this.refs.map.getClientRects();
 		var relativeX=x-data[0].left-this.props.cellSizes.width/2;
 		var relativeY=y-data[0].top;
 
-
-
 		var length=Math.sqrt(
 			Math.pow(relativeX, 2)+
 			Math.pow(relativeY, 2)
 		);
 
-
-
 		var angle0=
 				Math.PI/2
 				-this.props.cellSizes.angle0
 				-Math.atan(relativeX/relativeY)
-		//+Math.PI/2
 			;
 
 		var angle1=
@@ -77,8 +53,6 @@ IsoMap.Map = React.createClass({
 				-angle0
 				-(Math.PI-this.props.cellSizes.angle0*2)
 			;
-
-
 
 		var yLength=(length*Math.sin(angle0))/Math.sin(angle0+angle1);
 
@@ -121,11 +95,7 @@ IsoMap.Map = React.createClass({
 		clearInterval(this.interval);
 	},
 
-
-
-
 	tick:function() {
-
 		var status=[];
 		for(var x=0; x <this.props.sizes.width; x++) {
 			for(var y=0; y <this.props.sizes.height; y++) {
@@ -137,20 +107,12 @@ IsoMap.Map = React.createClass({
 					alive: this.isAlive(cell)
 				};
 				status.push(object);
-
 			}
 		}
 
-
-
 		var aliveCellsNumber=0;
 
-
-
 		for(var i=0; i<status.length; i++) {
-
-
-
 			if(status[i].alive) {
 				aliveCellsNumber++;
 				status[i].cell.live();
@@ -163,9 +125,6 @@ IsoMap.Map = React.createClass({
 		this.setState({
 			aliveCellsNumber:aliveCellsNumber
 		});
-
-
-
 	},
 
 
@@ -202,9 +161,6 @@ IsoMap.Map = React.createClass({
 				aliveNeighbour++;
 			}
 
-			//if(aliveNeighbour>3) return false;
-
-
 			if(cellule.props.y>0) {
 				var cell=this.getCellByXY(cellule.props.x+1, cellule.props.y-1);
 				if(cell.isAlive()) {
@@ -237,8 +193,6 @@ IsoMap.Map = React.createClass({
 			}
 		}
 
-
-
 		if(aliveNeighbour==3) {
 			return true;
 		}
@@ -249,7 +203,6 @@ IsoMap.Map = React.createClass({
 			return false;
 		}
 	},
-
 
 
 	resetCells:function() {
@@ -272,15 +225,13 @@ IsoMap.Map = React.createClass({
 
 
 	onClick: function(event) {
+		this.setState({
+			tryCount: this.state.tryCount + 1
+		});
 
-
-
-		var cell=this.getCellByCoord(event.clientX, event.clientY);
+		var cell = this.getCellByCoord(event.clientX, event.clientY);
 		cell.live();
 	},
-
-
-
 
 	createCell: function(cell) {
 
@@ -292,8 +243,6 @@ IsoMap.Map = React.createClass({
 
 
 		this.props.cellSizes.sideLength=sideLength;
-
-
 
 		this.props.cellSizes.angle0=Math.atan(
 			((this.props.cellSizes.height+this.props.cellSizes.offsetTop)/2)/
@@ -361,30 +310,47 @@ IsoMap.Map = React.createClass({
 	},
 
 	render: function() {
-
-
-
 		if(!this.props.cellList.length) {
 			this.initializeCells();
 		}
 
-
-
-
-
-
 		return  React.createElement(
 			'div', {},
-			'Nombre de cellules vivantes ',
+
 			React.createElement(
-				'input', {
-					ref: 'aliveCellCounter',
-					value: this.state.aliveCellsNumber,
-					style: {
-						textAlign: 'right'
+				'div', {
+					className: 'cell-counter-container'
+				},
+				'Nombre de cellules vivantes : ',
+				React.createElement(
+					'input', {
+						ref: 'aliveCellCounter',
+						value: this.state.aliveCellsNumber,
+						style: {
+							// textAlign: 'right'
+						},
+						className: 'cell-counter'
 					}
-				}
+				),
 			),
+
+			React.createElement(
+				'div', {
+					className: 'try-counter-container'
+				},
+				'Essais : ',
+				React.createElement(
+					'input', {
+						ref: 'aliveCellCounter',
+						value: this.state.tryCount,
+						style: {
+							// textAlign: 'right'
+						},
+						className: 'try-counter'
+					}
+				),
+			),
+
 			React.createElement(
 				'ul',
 				{
@@ -395,25 +361,7 @@ IsoMap.Map = React.createClass({
 				},
 				this.props.cellList.map(this.createCell)
 			)
-
-
 		)
-
-
-
-		return React.createElement(
-			'ul',
-			{
-				'ref': 'map',
-				className: 'map',
-				onClick: this.onClick,
-				onMouseOver: this.onMouseOver
-			},
-			this.props.cellList.map(this.createCell)
-		);
-
-
-
 	}
 });
 

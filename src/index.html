@@ -2,13 +2,10 @@
 <html>
 
 <head>
-	<script src="vendor/babelcore.js"></script>
-	<script src="vendor/react/build/react.js"></script>
-	<script src="vendor/react/build/react-dom.js"></script>
+	<title>Game of life</title>
 
-	<script src="source/class/Map.js"></script>
-	<script src="source/class/Sprite.js"></script>
-	<script src="source/class/GameTrigger.js"></script>
+	<link rel="stylesheet" href="styles.css">
+
 
 	<style>
 
@@ -42,38 +39,39 @@
 </head>
 
 <body>
+	<h1>Game of life</h1>
 
+	<div id="container"></div>
 
-<div id="container">
-	<!-- This element's contents will be replaced with your component. -->
-</div>
+	<!-- not used, but kept for reference -->
+	<!-- <script src="vendor/babelcore.js"></script> -->
+	<script src="vendor/react/build/react.js"></script>
+	<script src="vendor/react/build/react-dom.js"></script>
 
+	<script src="source/class/Map.js"></script>
+	<script src="source/class/Sprite.js"></script>
+	<script src="source/class/GameTrigger.js"></script>
 
+	<script>
+		const width = 24;
+		const height = 24;
 
-
-<script>
-
-
-
-
-	ReactDOM.render(
-		React.createElement(IsoMap.Map, {
-			spriteClass: IsoMap.GameTrigger,
-			sizes : {
-				width:32,
-				height: 32
-			},
-			cellSizes: {
-				width: 64,
-				height: 52,
-				offsetTop:-20
-			},
-		})
-		,document.getElementById('container')
-	);
-
-
-</script>
+		ReactDOM.render(
+			React.createElement(IsoMap.Map, {
+				spriteClass: IsoMap.GameTrigger,
+				sizes : {
+					width: width,
+					height: height
+				},
+				cellSizes: {
+					width: 64,
+					height: 52,
+					offsetTop:-20
+				},
+			})
+			,document.getElementById('container')
+		);
+	</script>
 
 
 </body>

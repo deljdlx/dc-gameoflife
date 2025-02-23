@@ -1,0 +1,24 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #ccc;
+}
+
+h1 {
+  margin: 0;
+}
+
+.cell-counter-container,
+.try-counter-container {
+  margin: 4px 1rem;
+}
+
+
+.cell-counter, .try-counter {
+  width: 2rem;
+  border: 1px solid #000;
+  padding: 2px 8px;
+  border-radius: 0.5rem;
+  text-align: center;
+}

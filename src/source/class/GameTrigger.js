@@ -1,4 +1,3 @@
-
 IsoMap.GameTrigger = React.createClass({
 
 
@@ -23,10 +22,7 @@ IsoMap.GameTrigger = React.createClass({
 				status: 'dead'
 			};
 		}
-
 	},
-
-
 
 	live: function() {
 		this.setState({
