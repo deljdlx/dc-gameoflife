@@ -1,7 +1,9 @@
 # 🍄 Game of life in a React old fashion way
 
 <!--<SHORT-PRESENTATION>-->
-A [Conway game of life implemention](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life) implementation written in **(very) old-school React**, straight from the **prehistoric era of front-end development** (circa 2013).  
+A [Conway game of life implemention](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life) implementation written in **(very) old-school React**, straight from the **prehistoric era of front-end development** (circa 2013).
+
+Some updates were made to improve UI and UX, but the core code is still **pure React** from the **dawn of time**.
 
 🦖 Featuring:
 - `React.createElement(...)` – because hooks weren’t even a thing back then!  
